@@ -1,7 +1,7 @@
 {
 		"manifestVersion": 1,
 		"id": "topcoder-devops-ext",
-		"version": "0.1.3",
+		"version": "0.1.16",
 		"name": "Topcoder X Azure Dev Ops Extension",
 		"description": "Bring Topcoder into your DevOps experience through the Topcoder X extension.",
 		"publisher": "topcoder",
@@ -23,7 +23,7 @@
 					"ms.vss-work-web.work-hub-group"
 					],
 				"properties": {
-					"name": "Topcoder",
+					"name": "Topcoder X",
 					"order": 99,
 					"uri": "topcoder.html"
 				}
@@ -50,13 +50,31 @@
             "project_team"
           ]
         }
+      },
+      {
+        "id": "topcoder.sendToTC",
+        "type": "ms.vss-web.action",
+        "description": "Send item to Topcoder",
+        "targets": [
+          "ms.vss-work-web.work-item-context-menu",
+          "ms.vss-work-web.work-item-query-menu",
+          "ms.vss-work-web.work-item-query-results-toolbar-menu",
+          "ms.vss-work-web.query-result-work-item-menu",
+          "ms.vss-work-web.backlog-item-menu"
+        ],
+        "properties": {
+          "text": "Send item to Topcoder",
+          "title": "Send item to Topcoder",
+          "icon": "images/icon.png",
+          "groupId": "actions",
+          "uri": "action.html"
+        }
       }
 		],
 		"scopes": [
       "vso.work_full",
       "vso.code_full",
-      "vso.code_status",
-      ""
+      "vso.code_status"
 		],
 		"files": [
 			{

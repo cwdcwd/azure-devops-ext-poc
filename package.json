@@ -1,6 +1,6 @@
 {
   "name": "topcoder-x-devops-ext",
-  "version": "0.1.3",
+  "version": "0.1.16",
   "description": "",
   "main": "index.js",
   "scripts": {

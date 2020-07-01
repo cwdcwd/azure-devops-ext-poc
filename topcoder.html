@@ -10,13 +10,79 @@
       usePlatformStyles: true
   });</script>
 	<h1>Topcoder X: Dashboard</h1>
-	<script type="text/javascript">VSS.notifyLoadSucceeded();</script>
+	<script type="text/javascript">
+    $(() => {
+      // Get data service
+      VSS.getService(VSS.ServiceIds.ExtensionData).then(function(dataService) {
+          // Get value in user scope
+          dataService.getValue("TCJWT", {scopeType: "User"}).then(function(value) {
+              console.log("User JWT value is " + value);
+
+              if(!value) {
+                VSS.getService(VSS.ServiceIds.ExtensionData).then(function(dataService) {
+                    // Set value in user scope
+                    dataService.setValue("TCJWT", '12345', {scopeType: "User"}).then(function(value) {
+                        console.log("Setting User JWT value is " + value);
+                    });
+                });}
+          });
+      });
+
+/*
+          $.ajaxSetup({
+            headers: { "Authorization": header }
+          });
+*/
+          $.ajax({
+            url: 'https://api.topcoder.com/v5/projects',
+            type: "GET",
+            dataType: "json",
+            success: data => {
+                console.log(data);
+                for(let i;i<data.length;++i) {
+                    $('#projectList').append('<li>').text(data[i].name);
+                }
+                
+            },
+            error: e => {
+              console.log(e);
+              return WidgetHelpers.WidgetStatusHelper.Failure(e.message);
+            }
+          });
+
+          $.ajax({
+            url: 'https://api.topcoder.com/v5/challenges',
+            type: "GET",
+            dataType: "json",
+            success: data => {
+                console.log(data);
+                for(let i;i<data.length;++i) {
+                    $('#challengeList').append('<li>').text(data[i].name);
+                }
+                
+            },
+            error: e => {
+              console.log(e);
+              return WidgetHelpers.WidgetStatusHelper.Failure(e.message);
+            }
+          });
+
+      VSS.notifyLoadSucceeded();
+    });
+  </script>
 
   <div>
     list TC projects
+    <div>
+      <ul id="projectList"></ul>
+    </div>
+    
   </div>
   <div>
     list TC challenges
+    <div>
+      <ul id="challengeList"></ul>
+    </div>
   </div>
 </body>
 </html>

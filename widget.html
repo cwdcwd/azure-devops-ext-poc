@@ -6,6 +6,10 @@
   <body>
       <div class="widget">
           <h2 class="title"></h2>
+          <div>
+            <ul id="challengeList">
+            </ul>
+          </div>
       </div>
 
       <script type="text/javascript">
@@ -21,6 +25,27 @@
                   load: function (widgetSettings) {
                       var $title = $('h2.title');
                       $title.text('Topcoder X');
+/*
+                      $.ajaxSetup({
+                        headers: { "Authorization": header }
+                      });
+*/
+                      $.ajax({
+                        url: 'https://api.topcoder.com/v5/challenges',
+                        type: "GET",
+                        dataType: "json",
+                        success: data => {
+                            console.log(data);
+                            for(let i;i<data.length;++i) {
+                                $('#challengeList').append('<li>').text(data[i].name);
+                            }
+                           
+                        },
+                        error: e => {
+                          console.log(e);
+                          return WidgetHelpers.WidgetStatusHelper.Failure(e.message);
+                        }
+                      });
 
                       return WidgetHelpers.WidgetStatusHelper.Success();
                   }

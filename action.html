@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send To Topcoder</title>
+    <script src="lib/VSS.SDK.min.js"></script>
+</head>
+<body>
+    <div>
+        The end user doesn't see the content on this page.
+        It is only in the background to handle the contributed menu item being clicked.
+    </div>
+
+<script>
+    VSS.init();
+    console.log('loaded topcoder menu action');
+    // Use an IIFE to create an object that satisfies the IContributedMenuSource contract
+    var menuContributionHandler = (function () {
+        "use strict";
+        return {
+            // This is a callback that gets invoked when a user clicks the newly contributed menu item
+            // The actionContext parameter contains context data surrounding the circumstances of this
+            // action getting invoked.
+            execute: function (actionContext) {
+                console.log(actionContext);
+                alert("Send to Topcoder");
+            }
+        };
+    }());
+
+    // Associate the menuContributionHandler object with the "myAction" menu contribution from the manifest.
+    VSS.register("topcoder.sendToTC", menuContributionHandler);
+</script>
+</body>
+</html>
