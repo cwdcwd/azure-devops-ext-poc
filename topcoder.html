@@ -10,8 +10,24 @@
       usePlatformStyles: true
   });</script>
 	<h1>Topcoder X: Dashboard</h1>
+
+  <div>
+    list TC projects
+    <div>
+      <ul id="projectList"></ul>
+    </div>
+    
+  </div>
+  <div>
+    list TC challenges
+    <div>
+      <ul id="challengeList"></ul>
+    </div>
+  </div>
+
+
 	<script type="text/javascript">
-    $(() => {
+    VSS.ready(() => {
       // Get data service
       VSS.getService(VSS.ServiceIds.ExtensionData).then(function(dataService) {
           // Get value in user scope
@@ -28,61 +44,52 @@
           });
       });
 
-/*
-          $.ajaxSetup({
-            headers: { "Authorization": header }
-          });
-*/
-          $.ajax({
-            url: 'https://api.topcoder.com/v5/projects',
-            type: "GET",
-            dataType: "json",
-            success: data => {
-                console.log(data);
-                for(let i;i<data.length;++i) {
-                    $('#projectList').append('<li>').text(data[i].name);
-                }
-                
-            },
-            error: e => {
-              console.log(e);
-              return WidgetHelpers.WidgetStatusHelper.Failure(e.message);
-            }
-          });
+      let jwt='eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1rWTNNamsxTWpNeU5Ua3dRalkzTmtKR00wRkZPRVl3TmtJd1FqRXlNVUk0TUVFNE9UQkZOZyJ9.eyJpc3MiOiJodHRwczovL3RvcGNvZGVyLmF1dGgwLmNvbS8iLCJzdWIiOiJSMlpXaHFrc0cza3VORUNNTVoxVkJFZGxpcW5iaWpHMEBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly93d3cudG9wY29kZXIuY29tLyIsImlhdCI6MTU5NDE3NDY5NSwiZXhwIjoxNTk0MjYxMDk1LCJhenAiOiJSMlpXaHFrc0cza3VORUNNTVoxVkJFZGxpcW5iaWpHMCIsInNjb3BlIjoicmVhZDpjaGFsbGVuZ2VzIHJlYWQ6Z3JvdXBzIHJlYWQ6cHJvamVjdCByZWFkOmxvb2t1cHMiLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMifQ.WXFMiTjjA7FEPD5Kx6R1MSmptWSvi4Mls6_XDqcvPa1vLRxiewxt3aOENbqCcQleimNq7GRXGIdT5MODU-7g_vatLpsdyqqOHzGfM4q8h6cLVdosl6aEOR_W9sNv2SWq0Ip4UZIgCV1TVfrVjUOhLDgQqJRjWG_vR6jg1l0v5JksNKdVvKRQK_27qYJ8A42rzNCr4oINT6zcqrL49p_887urtQySMMA46ls9_oPpFJ0fSyxcValDIgUtrOWW94D8vqNf-LBBGifgjiH-Wzj8YFCiOkq7C11L0ObM4ZSH4UpcHHQwDQQ3xqVN_JS9gq8U-FJk0QjRw9bEfa-_68aB1A';
 
-          $.ajax({
-            url: 'https://api.topcoder.com/v5/challenges',
-            type: "GET",
-            dataType: "json",
-            success: data => {
-                console.log(data);
-                for(let i;i<data.length;++i) {
-                    $('#challengeList').append('<li>').text(data[i].name);
-                }
-                
-            },
-            error: e => {
-              console.log(e);
-              return WidgetHelpers.WidgetStatusHelper.Failure(e.message);
+      $.ajaxSetup({
+        headers: { "Authorization": `Bearer ${jwt}` }
+      });
+
+      $.ajax({
+        url: 'https://api.topcoder.com/v5/projects/?directProjectId=21196',
+        type: "GET",
+        dataType: "json",
+        success: data => {
+            console.log(data.length, data);
+            for(let i=0;i<data.length;++i) {
+              console.log(data[i].name);
+              $('#projectList').append(`<li>${data[i].name}</li>`);
             }
-          });
+            
+        },
+        error: e => {
+          console.log(e);
+          return WidgetHelpers.WidgetStatusHelper.Failure(e.message);
+        }
+      });
+
+      $.ajax({
+        url: 'https://api.topcoder.com/v5/challenges/?directProjectId=21196',
+        type: "GET",
+        dataType: "json",
+        success: data => {
+            console.log(data.length, data);
+            for(let i=0;i<data.length;++i) {
+              console.log(data[i].name);
+              $('#challengeList').append(`<li>${data[i].name}</li>`);
+            }
+            
+        },
+        error: e => {
+          console.log(e);
+          return WidgetHelpers.WidgetStatusHelper.Failure(e.message);
+        }
+      });
 
       VSS.notifyLoadSucceeded();
     });
   </script>
 
-  <div>
-    list TC projects
-    <div>
-      <ul id="projectList"></ul>
-    </div>
-    
-  </div>
-  <div>
-    list TC challenges
-    <div>
-      <ul id="challengeList"></ul>
-    </div>
-  </div>
+
 </body>
 </html>

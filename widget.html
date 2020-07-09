@@ -37,6 +37,7 @@
                         success: data => {
                             console.log(data);
                             for(let i;i<data.length;++i) {
+                                console.log(data[i].name)
                                 $('#challengeList').append('<li>').text(data[i].name);
                             }
                            

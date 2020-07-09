@@ -1,7 +1,7 @@
 {
 		"manifestVersion": 1,
 		"id": "topcoder-devops-ext",
-		"version": "0.1.16",
+		"version": "0.1.25",
 		"name": "Topcoder X Azure Dev Ops Extension",
 		"description": "Bring Topcoder into your DevOps experience through the Topcoder X extension.",
 		"publisher": "topcoder",
@@ -68,6 +68,61 @@
           "icon": "images/icon.png",
           "groupId": "actions",
           "uri": "action.html"
+        }
+      },
+      {
+        "id": "service-endpoint",
+        "description": "Service endpoint type for Topcoder",
+        "type": "ms.vss-endpoint.service-endpoint-type",
+        "targets": [
+          "ms.vss-endpoint.endpoint-types"
+        ],
+        "properties": {
+          "name": "Topcoder",
+          "displayName": "Topcoder APIs",
+          "url": {
+            "displayName": "Server Url",
+            "helpText": "Url for the Topcoder"
+          },
+          "dataSources": [
+            {
+              "name": "Topcoder Projects",
+              "endpointUrl": "{{endpoint.url}}v5/projects",
+              "resultSelector": "jsonpath:$[*].nm"
+            }
+          ],
+          "authenticationSchemes": [
+            {
+              "type": "ms.vss-endpoint.endpoint-auth-scheme-token"
+            },
+            {
+              "type": "ms.vss-endpoint.endpoint-auth-scheme-basic",
+              "inputDescriptors": [
+                {
+                  "id": "username",
+                  "name": "Username",
+                  "description": "Username",
+                  "inputMode": "textbox",
+                  "validation": {
+                    "isRequired": false,
+                    "dataType": "string"
+                  }
+                },
+                {
+                  "id": "password",
+                  "name": "Password",
+                  "description": "Password",
+                  "inputMode": "passwordbox",
+                  "isConfidential": true,
+                  "validation": {
+                    "isRequired": false,
+                    "dataType": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "helpMarkDown": "<a href=\"url-to-documentation\" target=\"_blank\"><b>Learn More</b></a>"
         }
       }
 		],
